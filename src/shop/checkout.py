@@ -28,6 +28,14 @@ def calculate_order_total(
     lines: list[dict[str, str]],
     promo_code: str = "",
     shipping_city: str = "",
-) -> int | None:
-    """Return the order total in kopecks, or None if the order is invalid."""
-    ...
+) -> int:
+    total = 0
+
+    for line in lines:
+        qty = int(line.get("qty", "0"))
+        unit_price = int(line.get("unit_price_kopecks", "0"))
+        total += qty * unit_price
+
+    total += total // 5
+
+    return total
